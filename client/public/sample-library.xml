@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Major Version</key><integer>1</integer>
+	<key>Minor Version</key><integer>1</integer>
+	<key>Application Version</key><integer>14</integer>
+	<key>Tracks</key>
+	<dict>
+		<key>1001</key>
+		<dict>
+			<key>Track ID</key><integer>1001</integer>
+			<key>Name</key><string>Bohemian Rhapsody</string>
+			<key>Artist</key><string>Queen</string>
+			<key>Album</key><string>A Night at the Opera</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Total Time</key><integer>354000</integer>
+			<key>Track Number</key><integer>11</integer>
+			<key>Year</key><integer>1975</integer>
+		</dict>
+		<key>1002</key>
+		<dict>
+			<key>Track ID</key><integer>1002</integer>
+			<key>Name</key><string>Blinding Lights</string>
+			<key>Artist</key><string>The Weeknd</string>
+			<key>Album</key><string>After Hours</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Total Time</key><integer>200000</integer>
+			<key>Track Number</key><integer>9</integer>
+			<key>Year</key><integer>2020</integer>
+		</dict>
+		<key>1003</key>
+		<dict>
+			<key>Track ID</key><integer>1003</integer>
+			<key>Name</key><string>Stairway to Heaven</string>
+			<key>Artist</key><string>Led Zeppelin</string>
+			<key>Album</key><string>Led Zeppelin IV</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Total Time</key><integer>482000</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Year</key><integer>1971</integer>
+		</dict>
+		<key>1004</key>
+		<dict>
+			<key>Track ID</key><integer>1004</integer>
+			<key>Name</key><string>Shape of You</string>
+			<key>Artist</key><string>Ed Sheeran</string>
+			<key>Album</key><string>÷ (Divide)</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Total Time</key><integer>233000</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Year</key><integer>2017</integer>
+		</dict>
+		<key>1005</key>
+		<dict>
+			<key>Track ID</key><integer>1005</integer>
+			<key>Name</key><string>Lose Yourself</string>
+			<key>Artist</key><string>Eminem</string>
+			<key>Album</key><string>8 Mile Soundtrack</string>
+			<key>Genre</key><string>Hip-Hop</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Total Time</key><integer>326000</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Year</key><integer>2002</integer>
+		</dict>
+		<key>1006</key>
+		<dict>
+			<key>Track ID</key><integer>1006</integer>
+			<key>Name</key><string>Billie Jean</string>
+			<key>Artist</key><string>Michael Jackson</string>
+			<key>Album</key><string>Thriller</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Total Time</key><integer>294000</integer>
+			<key>Track Number</key><integer>6</integer>
+			<key>Year</key><integer>1982</integer>
+		</dict>
+		<key>1007</key>
+		<dict>
+			<key>Track ID</key><integer>1007</integer>
+			<key>Name</key><string>Rolling in the Deep</string>
+			<key>Artist</key><string>Adele</string>
+			<key>Album</key><string>21</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Total Time</key><integer>228000</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Year</key><integer>2011</integer>
+		</dict>
+		<key>1008</key>
+		<dict>
+			<key>Track ID</key><integer>1008</integer>
+			<key>Name</key><string>Smells Like Teen Spirit</string>
+			<key>Artist</key><string>Nirvana</string>
+			<key>Album</key><string>Nevermind</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Total Time</key><integer>301000</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Year</key><integer>1991</integer>
+		</dict>
+		<key>1009</key>
+		<dict>
+			<key>Track ID</key><integer>1009</integer>
+			<key>Name</key><string>Hotel California</string>
+			<key>Artist</key><string>Eagles</string>
+			<key>Album</key><string>Hotel California</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Total Time</key><integer>390000</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Year</key><integer>1977</integer>
+		</dict>
+		<key>1010</key>
+		<dict>
+			<key>Track ID</key><integer>1010</integer>
+			<key>Name</key><string>Levitating</string>
+			<key>Artist</key><string>Dua Lipa</string>
+			<key>Album</key><string>Future Nostalgia</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Total Time</key><integer>203000</integer>
+			<key>Track Number</key><integer>5</integer>
+			<key>Year</key><integer>2020</integer>
+		</dict>
+	</dict>
+	<key>Playlists</key>
+	<array>
+		<dict>
+			<key>Name</key><string>Library</string>
+			<key>Master</key><true/>
+			<key>Playlist ID</key><integer>1</integer>
+			<key>Playlist Persistent ID</key><string>AAAA0001</string>
+			<key>Playlist Items</key>
+			<array>
+				<dict><key>Track ID</key><integer>1001</integer></dict>
+				<dict><key>Track ID</key><integer>1002</integer></dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Name</key><string>Classic Rock Essentials</string>
+			<key>Playlist ID</key><integer>2</integer>
+			<key>Playlist Persistent ID</key><string>AAAA0002</string>
+			<key>Playlist Items</key>
+			<array>
+				<dict><key>Track ID</key><integer>1001</integer></dict>
+				<dict><key>Track ID</key><integer>1003</integer></dict>
+				<dict><key>Track ID</key><integer>1008</integer></dict>
+				<dict><key>Track ID</key><integer>1009</integer></dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Name</key><string>Pop Favorites</string>
+			<key>Playlist ID</key><integer>3</integer>
+			<key>Playlist Persistent ID</key><string>AAAA0003</string>
+			<key>Playlist Items</key>
+			<array>
+				<dict><key>Track ID</key><integer>1002</integer></dict>
+				<dict><key>Track ID</key><integer>1004</integer></dict>
+				<dict><key>Track ID</key><integer>1006</integer></dict>
+				<dict><key>Track ID</key><integer>1007</integer></dict>
+				<dict><key>Track ID</key><integer>1010</integer></dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Name</key><string>Workout Mix</string>
+			<key>Playlist ID</key><integer>4</integer>
+			<key>Playlist Persistent ID</key><string>AAAA0004</string>
+			<key>Playlist Items</key>
+			<array>
+				<dict><key>Track ID</key><integer>1005</integer></dict>
+				<dict><key>Track ID</key><integer>1002</integer></dict>
+				<dict><key>Track ID</key><integer>1008</integer></dict>
+				<dict><key>Track ID</key><integer>1010</integer></dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
