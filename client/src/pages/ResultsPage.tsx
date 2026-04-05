@@ -2,10 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useTransferStore } from "@/store/transferStore";
 import { Button } from "@/components/ui/Button";
-import { FadeIn } from "@/components/ui/FadeIn";
 import type { PlaylistTransferResult } from "@tunetransfer/shared";
 
-// ── Confetti + Musical Notes ───────────────────────────────
+// ── Confetti + Musical Notes ─────────────���─────────────────
 
 const NOTES = ["♪", "♫", "♩", "♬"];
 const CONFETTI_COLORS = [
@@ -208,7 +207,7 @@ function PlaylistCard({ result }: { result: PlaylistTransferResult }) {
   );
 }
 
-// ── Results Page ───────────────────────────────────────────
+// ── Results Page ────────────────���──────────────────────────
 
 export function ResultsPage() {
   const transferSummary = useTransferStore((s) => s.transferSummary);
@@ -239,37 +238,66 @@ export function ResultsPage() {
       {showConfetti && <Confetti />}
 
       <div className="flex flex-col items-center text-center pt-4">
-        <FadeIn up>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
           <h2 className="text-2xl md:text-3xl font-serif font-semibold text-charcoal-900 mb-1">
             Transfer complete
           </h2>
           <p className="text-base text-charcoal-700/50 max-w-sm mx-auto mb-8">
             Time to jam.
           </p>
-        </FadeIn>
+        </motion.div>
 
         {/* Stats row */}
         <div className="flex gap-3 w-full max-w-md mb-8">
-          <FadeIn up delay={150} className="flex-1">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
+            className="flex-1"
+          >
             <StatCard value={totalTracks} label="Total tracks" />
-          </FadeIn>
-          <FadeIn up delay={250} className="flex-1">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.25, ease: "easeOut" }}
+            className="flex-1"
+          >
             <StatCard value={totalMatched} label="Matched" accent />
-          </FadeIn>
-          <FadeIn delay={300} className="flex-1">
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex-1"
+          >
             <StatCard value={totalUnmatched} label="Unmatched" />
-          </FadeIn>
+          </motion.div>
         </div>
 
         {/* Per-playlist breakdown */}
-        <FadeIn delay={300} className="w-full max-w-md space-y-3 mb-10">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="w-full max-w-md space-y-3 mb-10"
+        >
           {playlists.map((p) => (
             <PlaylistCard key={p.playlistName} result={p} />
           ))}
-        </FadeIn>
+        </motion.div>
 
         {/* Actions */}
-        <FadeIn delay={450} className="flex items-center gap-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.45 }}
+          className="flex items-center gap-4"
+        >
           <Button variant="ghost" onClick={reset}>
             Start over
           </Button>
@@ -296,7 +324,7 @@ export function ResultsPage() {
               </svg>
             </Button>
           </a>
-        </FadeIn>
+        </motion.div>
       </div>
     </>
   );

@@ -1,6 +1,6 @@
+import { motion } from "framer-motion";
 import { useTransferStore } from "@/store/transferStore";
 import { Button } from "@/components/ui/Button";
-import { FadeIn } from "@/components/ui/FadeIn";
 import type { TransferGoal } from "@tunetransfer/shared";
 
 const GOALS: { key: TransferGoal; title: string; description: string }[] = [
@@ -28,7 +28,11 @@ export function WelcomePage() {
 
   return (
     <div className="flex flex-col items-center text-center pt-12">
-      <FadeIn up>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <h1 className="text-4xl md:text-5xl font-serif font-semibold text-charcoal-900 mb-4">
           Move your music,
           <br />
@@ -38,9 +42,14 @@ export function WelcomePage() {
           Transfer your Apple Music library to Spotify in minutes.
           No account linking required — just an export file.
         </p>
-      </FadeIn>
+      </motion.div>
 
-      <FadeIn up delay={150} className="w-full max-w-md mb-10">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
+        className="w-full max-w-md mb-10"
+      >
         <p className="text-sm font-medium text-charcoal-700/60 uppercase tracking-wider mb-4">
           What are you moving?
         </p>
@@ -73,9 +82,13 @@ export function WelcomePage() {
             </button>
           ))}
         </div>
-      </FadeIn>
+      </motion.div>
 
-      <FadeIn delay={300}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+      >
         <Button
           size="lg"
           disabled={!transferGoal}
@@ -96,9 +109,14 @@ export function WelcomePage() {
             <polyline points="12 5 19 12 12 19" />
           </svg>
         </Button>
-      </FadeIn>
+      </motion.div>
 
-      <FadeIn delay={450} className="mt-16 flex items-center gap-8 text-charcoal-700/30">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.45 }}
+        className="mt-16 flex items-center gap-8 text-charcoal-700/30"
+      >
         <div className="flex flex-col items-center gap-1">
           <span className="text-xs font-medium uppercase tracking-wider">From</span>
           <span className="text-sm font-semibold text-charcoal-700/50">Apple Music</span>
@@ -120,7 +138,7 @@ export function WelcomePage() {
           <span className="text-xs font-medium uppercase tracking-wider">To</span>
           <span className="text-sm font-semibold text-charcoal-700/50">Spotify</span>
         </div>
-      </FadeIn>
+      </motion.div>
     </div>
   );
 }

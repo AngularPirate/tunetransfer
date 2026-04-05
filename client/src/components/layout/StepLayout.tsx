@@ -1,5 +1,4 @@
-import { ReactNode, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { StepIndicator } from "./StepIndicator";
@@ -12,31 +11,14 @@ interface StepLayoutProps {
 export function StepLayout({ children }: StepLayoutProps) {
   const currentStep = useTransferStore((s) => s.currentStep);
 
-  // Skip the slide-up entrance animation on the very first render.
-  // This prevents the page from animating in when restored from sessionStorage
-  // (e.g., after a refresh or OAuth redirect). Subsequent step changes still animate.
-  const isFirstRender = useRef(true);
-  useEffect(() => {
-    isFirstRender.current = false;
-  }, []);
-
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <StepIndicator currentStep={currentStep} />
       <main className="flex-1 flex flex-col items-center px-8 pb-12">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentStep}
-            initial={isFirstRender.current ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="w-full max-w-3xl"
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
+        <div className="w-full max-w-3xl">
+          {children}
+        </div>
       </main>
       <Footer />
     </div>

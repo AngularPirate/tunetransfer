@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTransferStore } from "@/store/transferStore";
 import { Button } from "@/components/ui/Button";
-import { FadeIn } from "@/components/ui/FadeIn";
 import type { TransferEvent } from "@tunetransfer/shared";
 
 interface TrackEvent {
@@ -239,11 +238,15 @@ export function TransferPage() {
   const trackProgress =
     currentTrackCount > 0 ? (currentTrackIndex / currentTrackCount) * 100 : 0;
 
-  // ── Missing prerequisites ──────────────────────────────────
+  // ── Missing prerequisites ──────────────��───────────────────
   if (!canStart && !startedRef.current) {
     return (
       <div className="flex flex-col items-center text-center pt-12">
-        <FadeIn up>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
           <div className="w-12 h-12 rounded-full bg-charcoal-800/5 flex items-center justify-center mb-4 mx-auto">
             <svg
               width="20"
@@ -279,16 +282,20 @@ export function TransferPage() {
           >
             Go back
           </Button>
-        </FadeIn>
+        </motion.div>
       </div>
     );
   }
 
-  // ── Error state ────────────────────────────────────────────
+  // ── Error state ───────────────────���────────────────────────
   if (error) {
     return (
       <div className="flex flex-col items-center text-center pt-12">
-        <FadeIn up>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
           <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-4 mx-auto">
             <svg
               width="20"
@@ -311,7 +318,7 @@ export function TransferPage() {
           <Button variant="ghost" onClick={() => setStep("connect")}>
             Go back
           </Button>
-        </FadeIn>
+        </motion.div>
       </div>
     );
   }
@@ -319,14 +326,18 @@ export function TransferPage() {
   // ── Active transfer ────────────────────────────────────────
   return (
     <div className="flex flex-col items-center text-center pt-4">
-      <FadeIn up>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         <h2 className="text-2xl md:text-3xl font-serif font-semibold text-charcoal-900 mb-2">
           Transferring your music
         </h2>
         <p className="text-sm text-charcoal-700/60 max-w-sm mx-auto mb-8">
           Sit tight — we're matching your tracks on Spotify.
         </p>
-      </FadeIn>
+      </motion.div>
 
       {/* Stall warning */}
       {stalled && (
@@ -347,7 +358,12 @@ export function TransferPage() {
       )}
 
       {/* Overall progress — prominent bar with percentage */}
-      <FadeIn up delay={150} className="w-full max-w-md mb-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
+        className="w-full max-w-md mb-8"
+      >
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-semibold text-charcoal-800">
             Overall progress
@@ -367,11 +383,16 @@ export function TransferPage() {
         <p className="text-xs text-charcoal-700/40 mt-2">
           {completedPlaylists} of {totalPlaylists} playlists complete
         </p>
-      </FadeIn>
+      </motion.div>
 
       {/* Current playlist card */}
       {currentPlaylist && (
-        <FadeIn up delay={250} className="bg-white/60 ring-1 ring-charcoal-800/8 rounded-2xl px-8 py-6 w-full max-w-md mb-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.25, ease: "easeOut" }}
+          className="bg-white/60 ring-1 ring-charcoal-800/8 rounded-2xl px-8 py-6 w-full max-w-md mb-6"
+        >
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="w-5 h-5 border-2 border-sage-500/20 border-t-sage-500 rounded-full animate-spin" />
             <p className="text-sm font-semibold text-charcoal-800">
@@ -407,7 +428,7 @@ export function TransferPage() {
               {retryStatus}
             </p>
           )}
-        </FadeIn>
+        </motion.div>
       )}
 
       {/* Live feed */}

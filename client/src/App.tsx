@@ -49,10 +49,7 @@ export default function App() {
   // Using opacity instead of `return null` prevents a layout shift flash.
   return (
     <div
-      style={{
-        opacity: hasHydrated ? 1 : 0,
-        transition: "opacity 0.15s ease-out",
-      }}
+      style={{ opacity: hasHydrated ? 1 : 0 }}
     >
       <StepLayout>
         <CurrentPage />
