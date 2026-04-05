@@ -28,6 +28,25 @@ export default {
         "2xl": "1rem",
         "3xl": "1.5rem",
       },
+      keyframes: {
+        "fade-in-up": {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 0.5s ease-out both",
+        "fade-in-up": "fade-in-up 0.5s ease-out both",
+        "fade-in-up-d1": "fade-in-up 0.5s ease-out 0.15s both",
+        "fade-in-up-d2": "fade-in-up 0.5s ease-out 0.25s both",
+        "fade-in-d1": "fade-in 0.5s ease-out 0.15s both",
+        "fade-in-d2": "fade-in 0.5s ease-out 0.3s both",
+        "fade-in-d3": "fade-in 0.5s ease-out 0.45s both",
+      },
     },
   },
   plugins: [],

@@ -39,6 +39,8 @@ const STATE_KEY = "spotify_auth_state";
 // ── Auth Redirect ─────────────────────────────────────────────
 
 const SCOPES = [
+  "playlist-read-private",
+  "playlist-read-collaborative",
   "playlist-modify-public",
   "playlist-modify-private",
   "user-read-private",
@@ -57,7 +59,13 @@ export async function redirectToSpotifyAuth(): Promise<void> {
     throw new Error("Missing VITE_SPOTIFY_CLIENT_ID environment variable");
   }
 
-  const redirectUri = `${window.location.origin}/callback`;
+  // Spotify banned "localhost" in Nov 2025. For local dev, use 127.0.0.1 (loopback IP).
+  // Loopback IPs are the only exception where http:// is allowed.
+  // In production, window.location.origin will be https://yourdomain.com
+  const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+  const redirectUri = isLocal
+    ? `http://127.0.0.1:${window.location.port}/callback`
+    : `${window.location.origin}/callback`;
   const codeVerifier = generateRandomString(128);
   const codeChallenge = base64UrlEncode(await sha256(codeVerifier));
   const state = generateRandomString(32);
@@ -110,7 +118,9 @@ export async function exchangeCodeForToken(
     body: JSON.stringify({
       code,
       code_verifier: codeVerifier,
-      redirect_uri: `${window.location.origin}/callback`,
+      redirect_uri: ["localhost", "127.0.0.1"].includes(window.location.hostname)
+        ? `http://127.0.0.1:${window.location.port}/callback`
+        : `${window.location.origin}/callback`,
     }),
   });
 

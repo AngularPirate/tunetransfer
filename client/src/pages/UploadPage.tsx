@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/Button";
 export function UploadPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [parsed, setParsed] = useState(false);
 
   const setLibrary = useTransferStore((s) => s.setLibrary);
   const playlists = useTransferStore((s) => s.playlists);
   const setStep = useTransferStore((s) => s.setStep);
+
+  // Derive parsed state from store — survives refresh
+  const parsed = playlists.length > 0;
 
   const handleFileRead = useCallback(
     (content: string) => {
@@ -30,7 +32,6 @@ export function UploadPage() {
           }
 
           setLibrary(library.playlists, library.tracks);
-          setParsed(true);
           setIsLoading(false);
         } catch (err) {
           setError(
@@ -57,9 +58,9 @@ export function UploadPage() {
         Library), then drop the XML file here.
       </p>
 
-      <DropZone onFileRead={handleFileRead} isLoading={isLoading} error={error} />
+      <DropZone onFileRead={handleFileRead} isLoading={isLoading} error={error} parsed={parsed} />
 
-      {parsed && playlists.length > 0 && (
+      {parsed && (
         <div className="mt-8 flex flex-col items-center gap-4">
           <div className="flex gap-6 text-sm text-charcoal-700/60">
             <span>

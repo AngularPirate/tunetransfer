@@ -114,6 +114,12 @@ export type TransferEvent =
       reason: string;
     }
   | {
+      type: "track:retrying";
+      playlistName: string;
+      track: string;
+      waitSeconds: number;
+    }
+  | {
       type: "playlist:created";
       playlistName: string;
       spotifyUrl: string;

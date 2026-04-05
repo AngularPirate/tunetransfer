@@ -1,19 +1,28 @@
-import { motion } from "framer-motion";
 import { useTransferStore } from "@/store/transferStore";
 import { Button } from "@/components/ui/Button";
+import { FadeIn } from "@/components/ui/FadeIn";
 import { SpotifyLoginButton } from "@/components/auth/SpotifyLoginButton";
 
 export function ConnectPage() {
   const spotifyUser = useTransferStore((s) => s.spotifyUser);
+  const isAuthenticating = useTransferStore((s) => s.isAuthenticating);
   const setStep = useTransferStore((s) => s.setStep);
+
+  // Show spinner while the OAuth callback is exchanging tokens
+  if (isAuthenticating) {
+    return (
+      <div className="flex flex-col items-center text-center pt-24">
+        <FadeIn className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-2 border-sage-500/20 border-t-sage-500 rounded-full animate-spin" />
+          <p className="text-sm text-charcoal-700/60">Connecting to Spotify...</p>
+        </FadeIn>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center text-center pt-8">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
+      <FadeIn up>
         <h2 className="text-2xl md:text-3xl font-serif font-semibold text-charcoal-900 mb-2">
           {spotifyUser ? "You\u2019re connected" : "Connect to Spotify"}
         </h2>
@@ -22,13 +31,9 @@ export function ConnectPage() {
             ? "Your Spotify account is ready. Let\u2019s start the transfer."
             : "Sign in so we can create playlists in your account. We\u2019ll only request permission to manage your playlists."}
         </p>
-      </motion.div>
+      </FadeIn>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
-      >
+      <FadeIn up delay={150}>
         {spotifyUser ? (
           <div className="bg-white/60 ring-1 ring-charcoal-800/8 rounded-2xl px-8 py-6 flex flex-col items-center gap-4 mb-10">
             {spotifyUser.imageUrl ? (
@@ -81,14 +86,9 @@ export function ConnectPage() {
             <SpotifyLoginButton />
           </div>
         )}
-      </motion.div>
+      </FadeIn>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="flex items-center gap-4"
-      >
+      <FadeIn delay={300} className="flex items-center gap-4">
         <Button variant="ghost" onClick={() => setStep("review")}>
           Back
         </Button>
@@ -110,7 +110,7 @@ export function ConnectPage() {
             </svg>
           </Button>
         )}
-      </motion.div>
+      </FadeIn>
     </div>
   );
 }

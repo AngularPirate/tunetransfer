@@ -9,16 +9,20 @@ import {
   fetchSpotifyProfile,
 } from "@/lib/spotifyAuth";
 
+interface AuthCallbackPageProps {
+  onDone: () => void;
+}
+
 /**
  * Handles the Spotify OAuth redirect.
  *
- * Rendered when the URL contains ?code= or ?error= (detected in App.tsx).
- * Exchanges the auth code for tokens, fetches the user profile,
- * stores everything in Zustand, then clears the URL.
+ * Mounted by CurrentPage when URL contains ?code= or ?error=.
+ * Stays mounted (via isCallback flag in CurrentPage) even after URL is cleaned,
+ * so error UI remains visible. Calls onDone() when the flow is complete and
+ * the user should see the next page.
  */
-export function AuthCallbackPage() {
+export function AuthCallbackPage({ onDone }: AuthCallbackPageProps) {
   const setSpotifyAuth = useTransferStore((s) => s.setSpotifyAuth);
-  const setStep = useTransferStore((s) => s.setStep);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -28,15 +32,14 @@ export function AuthCallbackPage() {
       const state = params.get("state");
       const errorParam = params.get("error");
 
-      // Clean the URL immediately so a refresh doesn't re-trigger
-      window.history.replaceState({}, "", "/");
-
       if (errorParam) {
+        window.history.replaceState({ step: "connect" }, "", "/connect");
         setError(`Spotify authorization denied: ${errorParam}`);
         return;
       }
 
       if (!code) {
+        window.history.replaceState({ step: "connect" }, "", "/connect");
         setError("No authorization code received");
         return;
       }
@@ -44,36 +47,40 @@ export function AuthCallbackPage() {
       // Verify state matches (CSRF protection)
       const storedState = getStoredState();
       if (state !== storedState) {
-        setError("State mismatch \u2014 possible security issue. Please try again.");
         clearAuthStorage();
+        window.history.replaceState({ step: "connect" }, "", "/connect");
+        setError("State mismatch \u2014 possible security issue. Please try again.");
         return;
       }
 
       const codeVerifier = getStoredVerifier();
       if (!codeVerifier) {
+        window.history.replaceState({ step: "connect" }, "", "/connect");
         setError("Missing code verifier \u2014 please try connecting again.");
         return;
       }
 
       try {
-        // Exchange code for tokens via backend
         const tokens = await exchangeCodeForToken(code, codeVerifier);
-
-        // Fetch user profile with the new access token
         const profile = await fetchSpotifyProfile(tokens.access_token);
 
-        // Store everything and navigate to the connect step
+        // Atomic update: set user + token + step all at once = one render.
+        // setSpotifyAuth uses replaceState internally, so the URL updates
+        // from /?code=... to /connect without adding a history entry.
         clearAuthStorage();
-        setSpotifyAuth(profile, tokens.access_token, tokens.refresh_token);
-        setStep("connect");
+        setSpotifyAuth(profile, tokens.access_token, tokens.refresh_token, "connect");
+
+        // Signal CurrentPage to unmount us and render ConnectPage
+        onDone();
       } catch (err) {
         clearAuthStorage();
+        window.history.replaceState({ step: "connect" }, "", "/connect");
         setError(err instanceof Error ? err.message : "Authentication failed");
       }
     }
 
     handleCallback();
-  }, [setSpotifyAuth, setStep]);
+  }, [setSpotifyAuth, onDone]);
 
   if (error) {
     return (
@@ -103,7 +110,11 @@ export function AuthCallbackPage() {
           </h2>
           <p className="text-sm text-charcoal-700/60 mb-6 max-w-sm">{error}</p>
           <button
-            onClick={() => setStep("connect")}
+            onClick={() => {
+              // Navigate to connect page and unmount this callback page
+              useTransferStore.getState().replaceStep("connect");
+              onDone();
+            }}
             className="text-sm font-medium text-sage-600 hover:text-sage-500 transition-colors cursor-pointer"
           >
             Try again

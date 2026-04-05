@@ -25,6 +25,9 @@ router.post("/token", async (req: Request, res: Response) => {
   }
 
   try {
+    console.log("[auth/token] redirect_uri:", redirect_uri);
+    console.log("[auth/token] client_id:", clientId);
+
     const response = await fetch(SPOTIFY_TOKEN_URL, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },

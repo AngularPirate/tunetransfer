@@ -5,9 +5,10 @@ interface DropZoneProps {
   onFileRead: (content: string) => void;
   isLoading: boolean;
   error: string | null;
+  parsed?: boolean;
 }
 
-export function DropZone({ onFileRead, isLoading, error }: DropZoneProps) {
+export function DropZone({ onFileRead, isLoading, error, parsed }: DropZoneProps) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -79,7 +80,7 @@ export function DropZone({ onFileRead, isLoading, error }: DropZoneProps) {
             <div className="w-6 h-6 border-2 border-sage-500 border-t-transparent rounded-full animate-spin" />
             <p className="text-sm text-charcoal-700/60">Parsing your library...</p>
           </div>
-        ) : fileName && !error ? (
+        ) : (parsed || fileName) && !error ? (
           <div className="flex flex-col items-center gap-2">
             <svg
               width="24"
@@ -93,7 +94,9 @@ export function DropZone({ onFileRead, isLoading, error }: DropZoneProps) {
             >
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            <p className="text-sm font-medium text-sage-600">{fileName}</p>
+            <p className="text-sm font-medium text-sage-600">
+              {fileName ?? "Library loaded"}
+            </p>
           </div>
         ) : (
           <>
