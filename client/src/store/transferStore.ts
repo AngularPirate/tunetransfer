@@ -49,6 +49,7 @@ interface TransferStore {
   // Transfer results
   transferSummary: TransferSummary | null;
   setTransferSummary: (summary: TransferSummary) => void;
+  completeTransfer: (summary: TransferSummary) => void;
 
   // Reset
   reset: () => void;
@@ -144,6 +145,13 @@ export const useTransferStore = create<TransferStore>()(
 
       transferSummary: null,
       setTransferSummary: (summary) => set({ transferSummary: summary }),
+      completeTransfer: (summary) => {
+        set({ transferSummary: summary, currentStep: "results" });
+        const path = getPathForStep("results");
+        if (window.location.pathname !== path) {
+          window.history.pushState({ step: "results" }, "", path);
+        }
+      },
 
       reset: () => {
         set({

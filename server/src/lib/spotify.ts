@@ -128,17 +128,20 @@ export async function createPlaylist(
   name: string,
   token: string,
 ): Promise<{ id: string; url: string }> {
-  const res = await spotifyFetch(`${SPOTIFY_API}/users/${userId}/playlists`, {
+  const res = await spotifyFetch(`${SPOTIFY_API}/me/playlists`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, public: false }),
+    body: JSON.stringify({ name, public: true }),
   });
 
   if (!res.ok) {
     const body = await res.text();
+    console.error(`[createPlaylist] POST /users/${userId}/playlists → ${res.status}`);
+    console.error(`[createPlaylist] Response: ${body}`);
+    console.error(`[createPlaylist] Token prefix: ${token.substring(0, 20)}...`);
     throw new Error(`Failed to create playlist (${res.status}): ${body}`);
   }
 
@@ -156,7 +159,7 @@ export async function addTracksToPlaylist(
   // Spotify allows max 100 URIs per request
   for (let i = 0; i < uris.length; i += 100) {
     const chunk = uris.slice(i, i + 100);
-    const res = await spotifyFetch(`${SPOTIFY_API}/playlists/${playlistId}/tracks`, {
+    const res = await spotifyFetch(`${SPOTIFY_API}/playlists/${playlistId}/items`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

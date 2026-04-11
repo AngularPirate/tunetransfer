@@ -6,6 +6,7 @@ interface PlaylistCardProps {
   isActive: boolean;
   onToggle: () => void;
   onClick: () => void;
+  onActivate: () => void;
 }
 
 function formatDuration(ms: number): string {
@@ -22,6 +23,7 @@ export function PlaylistCard({
   isActive,
   onToggle,
   onClick,
+  onActivate,
 }: PlaylistCardProps) {
   const totalDuration = playlist.tracks.reduce((sum, t) => sum + t.totalTimeMs, 0);
 
@@ -42,6 +44,7 @@ export function PlaylistCard({
         onClick={(e) => {
           e.stopPropagation();
           onToggle();
+          onActivate();
         }}
         className={`
           w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0

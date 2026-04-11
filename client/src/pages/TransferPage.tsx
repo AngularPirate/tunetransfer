@@ -20,7 +20,7 @@ export function TransferPage() {
   const spotifyRefreshToken = useTransferStore((s) => s.spotifyRefreshToken);
   const spotifyUser = useTransferStore((s) => s.spotifyUser);
   const setSpotifyAuth = useTransferStore((s) => s.setSpotifyAuth);
-  const setTransferSummary = useTransferStore((s) => s.setTransferSummary);
+  const completeTransfer = useTransferStore((s) => s.completeTransfer);
   const setStep = useTransferStore((s) => s.setStep);
 
   const [currentPlaylist, setCurrentPlaylist] = useState<string | null>(null);
@@ -213,8 +213,7 @@ export function TransferPage() {
         break;
 
       case "transfer:complete":
-        setTransferSummary(event.summary);
-        setStep("results");
+        completeTransfer(event.summary);
         break;
 
       case "error":

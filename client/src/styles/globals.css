@@ -13,3 +13,17 @@
     @apply font-serif;
   }
 }
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--drift), var(--fall)) rotate(var(--rot));
+    opacity: 0;
+  }
+}

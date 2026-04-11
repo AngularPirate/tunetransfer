@@ -63,6 +63,7 @@ export function LibraryPage() {
                       : playlist.persistentId,
                   )
                 }
+                onActivate={() => setActivePlaylistId(playlist.persistentId)}
               />
             ))}
           </div>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useTransferStore } from "@/store/transferStore";
 import { Button } from "@/components/ui/Button";
@@ -51,45 +51,51 @@ function generateParticles(): Particle[] {
 
 function Confetti() {
   const particles = useMemo(() => generateParticles(), []);
+  const fallDistance = typeof window !== "undefined" ? window.innerHeight + 80 : 1000;
+
+  console.log("[confetti] mounted with", particles.length, "particles, fallDistance=", fallDistance);
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-50">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          initial={{
-            x: 0,
-            y: -20,
-            rotate: 0,
-            opacity: 1,
-          }}
-          animate={{
-            x: p.drift,
-            y: "110vh",
-            rotate: p.rotation,
-            opacity: [1, 1, 0],
-          }}
-          transition={{
-            duration: p.duration,
-            delay: p.delay,
-            ease: "linear",
-            opacity: { times: [0, 0.7, 1] },
-          }}
-          style={{
-            position: "absolute",
-            left: `${p.x}%`,
-            top: -20,
-            fontSize: p.isNote ? p.size : undefined,
-            width: p.isNote ? undefined : p.size,
-            height: p.isNote ? undefined : p.size * 0.6,
-            backgroundColor: p.isNote ? undefined : p.color,
-            color: p.isNote ? p.color : undefined,
-            borderRadius: p.isNote ? undefined : 1,
-          }}
-        >
-          {p.isNote ? p.note : null}
-        </motion.div>
-      ))}
+    <div
+      className="pointer-events-none"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        zIndex: 9999,
+      }}
+    >
+      {particles.map((p) => {
+        const style: React.CSSProperties & Record<string, string | number> = {
+          position: "absolute",
+          top: -40,
+          left: `${p.x}%`,
+          animation: `confetti-fall ${p.duration}s linear ${p.delay}s forwards`,
+          "--drift": `${p.drift}px`,
+          "--fall": `${fallDistance}px`,
+          "--rot": `${p.rotation}deg`,
+          willChange: "transform, opacity",
+        };
+
+        if (p.isNote) {
+          style.fontSize = p.size;
+          style.color = p.color;
+          style.lineHeight = 1;
+        } else {
+          style.width = p.size;
+          style.height = p.size * 0.6;
+          style.backgroundColor = p.color;
+          style.borderRadius = 1;
+        }
+
+        return (
+          <div key={p.id} style={style}>
+            {p.isNote ? p.note : null}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -212,23 +218,25 @@ function PlaylistCard({ result }: { result: PlaylistTransferResult }) {
 export function ResultsPage() {
   const transferSummary = useTransferStore((s) => s.transferSummary);
   const reset = useTransferStore((s) => s.reset);
-  const [showConfetti, setShowConfetti] = useState(true);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const hasShown = useRef(false);
 
-  // Auto-hide confetti after animation completes
+  // Fire confetti once transferSummary is available (may arrive after first render)
   useEffect(() => {
+    if (!transferSummary || hasShown.current) return;
+    hasShown.current = true;
+    setShowConfetti(true);
+  }, [transferSummary]);
+
+  // Auto-hide confetti after 5s
+  useEffect(() => {
+    if (!showConfetti) return;
     const timer = setTimeout(() => setShowConfetti(false), 5000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [showConfetti]);
 
   if (!transferSummary) {
-    return (
-      <div className="flex flex-col items-center text-center pt-12">
-        <p className="text-sm text-charcoal-700/50">No transfer results found.</p>
-        <Button variant="ghost" onClick={reset} className="mt-4">
-          Start over
-        </Button>
-      </div>
-    );
+    return null;
   }
 
   const { totalTracks, totalMatched, totalUnmatched, playlists } = transferSummary;
