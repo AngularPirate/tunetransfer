@@ -53,8 +53,6 @@ function Confetti() {
   const particles = useMemo(() => generateParticles(), []);
   const fallDistance = typeof window !== "undefined" ? window.innerHeight + 80 : 1000;
 
-  console.log("[confetti] mounted with", particles.length, "particles, fallDistance=", fallDistance);
-
   return (
     <div
       className="pointer-events-none"
