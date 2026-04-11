@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useTransferStore } from "@/store/transferStore";
 import { Button } from "@/components/ui/Button";
 import { SpotifyLoginButton } from "@/components/auth/SpotifyLoginButton";
@@ -7,6 +8,7 @@ export function ConnectPage() {
   const spotifyUser = useTransferStore((s) => s.spotifyUser);
   const isAuthenticating = useTransferStore((s) => s.isAuthenticating);
   const setStep = useTransferStore((s) => s.setStep);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   // Show spinner while the OAuth callback is exchanging tokens
   if (isAuthenticating) {
@@ -95,8 +97,50 @@ export function ConnectPage() {
             </div>
           </div>
         ) : (
-          <div className="mb-10">
-            <SpotifyLoginButton />
+          <div className="mb-6 flex flex-col items-center gap-4">
+            <SpotifyLoginButton onError={setAuthError} />
+            <AnimatePresence>
+              {authError && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2 }}
+                  role="alert"
+                  className="max-w-sm w-full bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-xs text-left flex items-start gap-2"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="flex-shrink-0 mt-0.5"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                  <div className="flex-1">
+                    <p className="font-semibold mb-0.5">Couldn&rsquo;t start Spotify sign-in</p>
+                    <p className="text-red-700/80 leading-snug">{authError}</p>
+                  </div>
+                  <button
+                    onClick={() => setAuthError(null)}
+                    className="text-red-700/60 hover:text-red-700 cursor-pointer flex-shrink-0"
+                    aria-label="Dismiss"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
       </motion.div>

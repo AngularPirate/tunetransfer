@@ -1,9 +1,24 @@
 import { redirectToSpotifyAuth } from "@/lib/spotifyAuth";
 
-export function SpotifyLoginButton() {
+interface SpotifyLoginButtonProps {
+  onError?: (message: string) => void;
+}
+
+export function SpotifyLoginButton({ onError }: SpotifyLoginButtonProps = {}) {
+  const handleClick = async () => {
+    try {
+      await redirectToSpotifyAuth();
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Couldn't start Spotify sign-in.";
+      console.error("[spotify-auth]", err);
+      onError?.(message);
+    }
+  };
+
   return (
     <button
-      onClick={redirectToSpotifyAuth}
+      onClick={handleClick}
       className="
         inline-flex items-center gap-3
         bg-[#1DB954] text-white
